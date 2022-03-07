@@ -1,7 +1,27 @@
 from bs4 import BeautifulSoup
+from h11 import CLIENT
 import requests
+from dotenv import load_dotenv
+import os
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+load_dotenv()
+CLIENT_ID=os.getenv("spotify_client_id")
+CLIENT_SECRET=os.getenv("spotify_client_secret")
 
 
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        redirect_uri="http://example.com/playlist",
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        show_dialog=True,
+        cache_path="token.txt"
+    )
+)
+
+user_id = sp.current_user()["id"]
 print("Top 100 hits a lo largo de la historia!!")
 date = input("Ingresa la fecha en este formato: YYYY-MM-DD: ")
 
